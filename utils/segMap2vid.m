@@ -3,18 +3,19 @@ close all;
 clear all;
 % baseDir = '/shared/arvaneh_group/Shared/stimsim/mridata/SegmentedMRIs/';
 
-pool1 = parpool('local', 4);
+% pool1 = parpool('local', 4);
 
-baseDir = '/home/boyan/sandbox/Jake_Data/SegMaps';
+baseDir = '/home/boyan/sandbox/Jake_Data/ti_dataset/';
 cd(baseDir)
-
 subjFolders = dir;
-parfor folder = 1:length(subjFolders)
+N = length(subjFolders);
+wait = waitbar(0, 'Processing...');
+
+for folder = 1:N
     if length(subjFolders(folder).name) > 2
-        tic;
         
-        fileList = dir(strcat(baseDir, subjFolders(folder).name));
-        
+        fileList = dir(fullfile(baseDir,subjFolders(folder).name,'anat'));
+        % nii_file = fullfile(baseDir,'anat',subjFolders(folder).name);
         for file = 1:length(fileList)
             tmp = fileList(file).name;
             if length(tmp) > 10
@@ -30,7 +31,7 @@ parfor folder = 1:length(subjFolders)
         subjName = subjFolders(folder).name;
 
 
-        writerObj = VideoWriter(strcat('/home/boyan/sandbox/roast/Outputs', subjName), 'Motion JPEG 2000');
+        writerObj = VideoWriter(strcat('/home/boyan/sandbox/Jake_roast/Workbench/', subjName), 'Motion JPEG 2000');
         open(writerObj);
         
         fig = figure('visible', 'off');
@@ -47,6 +48,8 @@ parfor folder = 1:length(subjFolders)
         %movieFig = figure();
         %movie(movieFig, capturedFrames, 100, 6);
         close all;
-        fprintf("Time to load and plot %d\n", round(toc))
+        waitbar(folder/N, wait);
+        % fprintf("Time to load and plot %d\n", round(toc))
     end
 end
+close(wait);

@@ -320,8 +320,8 @@ for i = 1:numSubj
         % (here I assume you have another struct, e.g. fwd_orig,
         %  or you can simply reuse fwd_1 if it *was* your original —
         %  just change the variable names accordingly)
-        faces_orig = fwd_2.faces(fwd_2.faces(:,4)==2,1:3);
-        elems_orig = fwd_2.elems(fwd_2.elems(:,5)==2,1:4);
+        faces_orig = fwd_2.faces(fwd_orig.faces(:,4)==2,1:3);
+        elems_orig = fwd_2.elems(fwd_orig.elems(:,5)==2,1:4);
         
         % build the same scalar field on the original nodes
         dataOrig = [ fwd_2.nodes(:,1:3), nan(size(fwd_2.nodes,1),1) ];
