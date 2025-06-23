@@ -310,7 +310,7 @@ for i = 1:numSubj
         
         % assemble your data vector (node-wise scalar = env_full.free)
         dataFull = [ fwd_1.nodes(:,1:3), nan(size(fwd_1.nodes,1),1) ];
-        dataFull(brainIdx1,4) = env_full.free;
+        dataFull(brainIdx1,4) = sqrt(ef2_on1(:,1).^2+ef2_on1(:,2).^2+ef2_on1(:,3).^2);
         
         % get the “refined” mesh connectivity
         faces_full = fwd_1.faces(fwd_1.faces(:,4)==2,1:3);
@@ -325,7 +325,7 @@ for i = 1:numSubj
         
         % build the same scalar field on the original nodes
         dataOrig = [ fwd_2.nodes(:,1:3), nan(size(fwd_2.nodes,1),1) ];
-        dataOrig(brainIdx1,4) = env_full.free;
+        dataOrig(brainIdx2,4) = sqrt(BrainE2(:,1).^2+BrainE2(:,2).^2+BrainE2(:,3).^2);
         
         % --- Plot both in one figure with subplots ---
         figure;
