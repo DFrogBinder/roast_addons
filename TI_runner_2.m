@@ -349,6 +349,9 @@ for i = 1:numSubj
         sgtitle('Field Comparison: Refined vs. Original Mesh');
         set(gcf, 'Position', [200 200 1000 450]);
 
+        plot_node_distance_histogram(grayNode1, 'Histogram of Node-to-Node Distances (grayNode1)');
+        plot_node_distance_histogram(grayNode2, 'Histogram of Node-to-Node Distances (grayNode2)');
+
 
         parsave(marker_TI);
         (marker_TI);
