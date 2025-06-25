@@ -180,3 +180,4 @@ cython_debug/
 Tables/
 .csv
 .xlsx
+.asv
