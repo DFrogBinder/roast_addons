@@ -37,6 +37,51 @@ function plot_nearest_node_distance_histogram(nodes1, nodes2, title_text, vararg
         dists = min(D, [], 2);
     end
     
+    % Find the indices of mesh1 nodes whose nearest‐neighbor distance exceeds 1
+    outlierIdx = find(dists > 1);
+    
+    % Extract their coordinates
+    outlierNodes = nodes1(outlierIdx, :);
+
+    % 3D visualization of mesh1 nodes and outliers
+    figure;
+    hold on;
+    
+    % Plot all mesh1 nodes in light gray
+    scatter3(...
+        nodes1(:,1), nodes1(:,2), nodes1(:,3), ...  % x, y, z
+        10, ...                                     % marker size
+        [0.7 0.7 0.7], ...                          % RGB color
+        'filled'...
+    );
+    
+    % Plot outlier nodes in red
+    scatter3(...
+        outlierNodes(:,1), outlierNodes(:,2), outlierNodes(:,3), ...
+        10, ...                                     % larger marker
+        'r', ...                                    % red
+        'filled'...
+    );
+    
+    % Formatting
+    grid on;
+    axis equal;
+    view(3);                    % 3D view
+    xlabel('X'); ylabel('Y'); zlabel('Z');
+    title('Mesh1 Nodes (gray) and Outliers (red, d > 1)');
+    
+    legend('All nodes','Distance > 1','Location','best');
+    hold off;
+
+    
+    % (Optional) display how many there are
+    fprintf('Found %d nodes with distance > 1:\n', numel(outlierIdx));
+    
+    % (Optional) list their first few indices and distances
+    disp(table(outlierIdx(1:min(end,10)), dists(outlierIdx(1:min(end,10))), ...
+        'VariableNames', {'NodeIndex','Distance'}));
+
+
     % Print some stats
     fprintf('Nodes at zero: %d\n', sum(dists == 0));
     fprintf('Mean: %g, Median: %g, Max: %g\n', mean(dists), median(dists), max(dists));
